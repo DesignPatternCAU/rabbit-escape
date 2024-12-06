@@ -14,7 +14,7 @@ public class InputExpansion
         new InputExpansion( "p", "explode" ),
         new InputExpansion( "l", "brolly" ),
         new InputExpansion( "j", "jump" ),
-        new InputExpansion("5","breakblock"),
+        new InputExpansion("o","breakblock"),
         new InputExpansion("u","portal")
 
     };

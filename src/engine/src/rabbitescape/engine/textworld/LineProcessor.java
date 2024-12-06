@@ -644,7 +644,7 @@ public class LineProcessor
                 things.add(ret);
                 break;
             }
-            case '5':
+            case 'o':
             {
               ret = new Token( x, y, Token.Type.breakblock );
               things.add( ret );

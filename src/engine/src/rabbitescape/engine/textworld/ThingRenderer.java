@@ -83,7 +83,7 @@ public class ThingRenderer
             case explode:     return 'p';
             case brolly:      return 'l';
             case portal:      return 'u';
-            case breakblock:  return '5';
+            case breakblock:  return 'o';
             case jump:        return 'w';
 
             default: throw new UnknownTokenType( thing.type );

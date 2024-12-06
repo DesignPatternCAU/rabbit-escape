@@ -308,54 +308,12 @@ public class ChangeRenderer
                 break;
             case RABBIT_OUT_OF_BOUNDS:
                 break;
-            case TOKEN_BASH_STILL:
-            case TOKEN_BASH_ON_SLOPE:
-            case TOKEN_DIG_STILL:
-            case TOKEN_DIG_ON_SLOPE:
-            case TOKEN_BRIDGE_STILL:
-            case TOKEN_BRIDGE_ON_SLOPE:
-            case TOKEN_BLOCK_STILL:
-            case TOKEN_BLOCK_ON_SLOPE:
-            case TOKEN_CLIMB_STILL:
-            case TOKEN_CLIMB_ON_SLOPE:
-            case TOKEN_EXPLODE_STILL:
-            case TOKEN_EXPLODE_ON_SLOPE:
-            case TOKEN_BROLLY_STILL:
-            case TOKEN_BROLLY_ON_SLOPE:
-
-            case TOKEN_PORTAL_STILL:
-            case TOKEN_PORTAL_ON_SLOPE:
-
-            case TOKEN_BREAKBLOCK_STILL:
-            case TOKEN_BREAKBLOCK_ON_SLOPE:
-            
-            case TOKEN_JUMP_STILL:
-            case TOKEN_JUMP_ON_SLOPE:
-
+            case TOKEN_STILL:
+            case TOKEN_ON_SLOPE:
                 break;
-            case TOKEN_BASH_FALLING:
-            case TOKEN_BASH_FALL_TO_SLOPE:
-            case TOKEN_DIG_FALLING:
-            case TOKEN_DIG_FALL_TO_SLOPE:
-            case TOKEN_BRIDGE_FALLING:
-            case TOKEN_BRIDGE_FALL_TO_SLOPE:
-            case TOKEN_BLOCK_FALLING:
-            case TOKEN_BLOCK_FALL_TO_SLOPE:
-            case TOKEN_CLIMB_FALLING:
-            case TOKEN_CLIMB_FALL_TO_SLOPE:
-            case TOKEN_EXPLODE_FALLING:
-            case TOKEN_EXPLODE_FALL_TO_SLOPE:
-            case TOKEN_BROLLY_FALLING:
-            case TOKEN_BROLLY_FALL_TO_SLOPE:
-            
-            case TOKEN_PORTAL_FALLING:
-            case TOKEN_PORTAL_FALL_TO_SLOPE:
+            case TOKEN_FALLING:
+            case TOKEN_FALL_TO_SLOPE:
 
-            case TOKEN_BREAKBLOCK_FALLING:
-            case TOKEN_BREAKBLOCK_FALL_TO_SLOPE:
-
-            case TOKEN_JUMP_FALLING:
-            case TOKEN_JUMP_FALL_TO_SLOPE:
             
                 chars.set( change.x, change.y + 1, 'f' );
                 break;

@@ -19,7 +19,7 @@ public class TestBreakBlocking {
         String[] world = {
                 "############",
                 "#          #",
-                "#5         #",
+                "#o         #",
                 "##         #",
                 "#          #",
                 "############"
@@ -57,7 +57,7 @@ public class TestBreakBlocking {
         String[] world = {
                 "############",
                 "#          #",
-                "#5         #",
+                "#o         #",
                 "#/         #",
                 "#          #",
                 "############"

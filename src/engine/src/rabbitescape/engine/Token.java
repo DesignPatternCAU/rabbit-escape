@@ -7,6 +7,7 @@ import java.util.Map;
 
 import rabbitescape.engine.ChangeDescription.State;
 import rabbitescape.engine.err.RabbitEscapeException;
+import rabbitescape.engine.tokenbehaviours.TokenBehaviour;
 
 public class Token extends Thing
 {
@@ -37,11 +38,13 @@ public class Token extends Thing
     }
 
     public final Type type;
+    private final TokenBehaviour tokenbehaviour;
 
     public Token( int x, int y, Type type )
     {
         super( x, y, switchType( type, false, false, true ) );
         this.type = type;
+        this.tokenbehaviour=TokenBehaviourFactory.createTokenBehaviour(type);
     }
 
     public Token( int x, int y, Type type, World world )
@@ -62,104 +65,26 @@ public class Token extends Thing
     {
         switch( type )
         {
-            case bash:   return chooseState( 
+            case bash:
+            case dig:
+            case bridge:
+            case block:
+            case climb:
+            case explode:
+            case brolly:
+            case breakblock:
+            case portal:
+            case jump:
+                return chooseState(
                 moving, 
                 slopeBelow, 
                 onSlope,
-                TOKEN_BASH_FALLING, 
-                TOKEN_BASH_STILL,
-                TOKEN_BASH_FALL_TO_SLOPE, 
-                TOKEN_BASH_ON_SLOPE
+                TOKEN_FALLING,
+                TOKEN_STILL,
+                TOKEN_FALL_TO_SLOPE,
+                TOKEN_ON_SLOPE
                 );
 
-            case dig:    return chooseState( 
-                moving, 
-                slopeBelow, 
-                onSlope,
-                TOKEN_DIG_FALLING, 
-                TOKEN_DIG_STILL,
-                TOKEN_DIG_FALL_TO_SLOPE, 
-                TOKEN_DIG_ON_SLOPE
-                );
-
-            case bridge: return chooseState( 
-                moving, 
-                slopeBelow, 
-                onSlope,
-                TOKEN_BRIDGE_FALLING, 
-                TOKEN_BRIDGE_STILL,
-                TOKEN_BRIDGE_FALL_TO_SLOPE, 
-                TOKEN_BRIDGE_ON_SLOPE
-                );
-
-            case block: return chooseState( 
-                moving, 
-                slopeBelow, 
-                onSlope,
-                TOKEN_BLOCK_FALLING, 
-                TOKEN_BLOCK_STILL,
-                TOKEN_BLOCK_FALL_TO_SLOPE, 
-                TOKEN_BLOCK_ON_SLOPE
-                );
-
-            case climb: return chooseState( 
-                moving, 
-                slopeBelow, 
-                onSlope,
-                TOKEN_CLIMB_FALLING, 
-                TOKEN_CLIMB_STILL,
-                TOKEN_CLIMB_FALL_TO_SLOPE, 
-                TOKEN_CLIMB_ON_SLOPE
-                );
-
-            case explode: return chooseState( 
-                moving, 
-                slopeBelow, 
-                onSlope,
-                TOKEN_EXPLODE_FALLING, 
-                TOKEN_EXPLODE_STILL,
-                TOKEN_EXPLODE_FALL_TO_SLOPE, 
-                TOKEN_EXPLODE_ON_SLOPE)
-                ;
-
-            case brolly: return chooseState( 
-                moving, 
-                slopeBelow, 
-                onSlope,
-                TOKEN_BROLLY_FALLING, 
-                TOKEN_BROLLY_STILL,
-                TOKEN_BROLLY_FALL_TO_SLOPE, 
-                TOKEN_BROLLY_ON_SLOPE
-                );
-            case breakblock: return chooseState(
-                 moving,
-                 slopeBelow,
-                 onSlope,
-                 TOKEN_BREAKBLOCK_FALLING,
-                 TOKEN_BREAKBLOCK_STILL,
-                 TOKEN_BREAKBLOCK_FALL_TO_SLOPE,
-                 TOKEN_BREAKBLOCK_ON_SLOPE);
-
-            case portal: return chooseState(
-                moving,
-                slopeBelow,
-                onSlope,
-                TOKEN_PORTAL_FALLING,
-                TOKEN_PORTAL_STILL,
-                TOKEN_PORTAL_FALL_TO_SLOPE,
-                TOKEN_PORTAL_ON_SLOPE
-                );
-
-            case jump:   return chooseState(
-                moving, 
-                slopeBelow, 
-                onSlope,
-                TOKEN_JUMP_FALLING, 
-                TOKEN_JUMP_STILL,
-                TOKEN_JUMP_FALL_TO_SLOPE, 
-                TOKEN_JUMP_ON_SLOPE
-                );
-                
             default: throw new UnknownType( type );
         }
     }
@@ -208,66 +133,8 @@ public class Token extends Thing
     @Override
     public void step( World world )
     {
-        switch ( state )
-        {
-        case TOKEN_BASH_FALLING:
-        case TOKEN_BASH_FALL_TO_SLOPE:
-        case TOKEN_DIG_FALLING:
-        case TOKEN_DIG_FALL_TO_SLOPE:
-        case TOKEN_BRIDGE_FALLING:
-        case TOKEN_BRIDGE_FALL_TO_SLOPE:
-        case TOKEN_BLOCK_FALLING:
-        case TOKEN_BLOCK_FALL_TO_SLOPE:
-        case TOKEN_CLIMB_FALLING:
-        case TOKEN_CLIMB_FALL_TO_SLOPE:
-        case TOKEN_EXPLODE_FALL_TO_SLOPE:
-        case TOKEN_EXPLODE_FALLING:
-        case TOKEN_BROLLY_FALLING:
-        case TOKEN_BROLLY_FALL_TO_SLOPE:
-        case TOKEN_PORTAL_FALLING:
-        case TOKEN_PORTAL_FALL_TO_SLOPE:
-        case TOKEN_BREAKBLOCK_FALLING:
-        case TOKEN_BREAKBLOCK_FALL_TO_SLOPE:
-        case TOKEN_JUMP_FALLING:
-        case TOKEN_JUMP_FALL_TO_SLOPE:
-
-        {
-            ++y;
-            
-
-            if ( y >= world.size.height )
-            {
-                world.changes.removeToken( this );
-            }
-
-            return;
-        }
-
-
-        case TOKEN_BREAKBLOCK_ON_SLOPE:
-        case TOKEN_BREAKBLOCK_STILL: {
-            Block belowBlock = world.getBlockAt( x, y + 1 );
-            Block onBlock = world.getBlockAt( x, y );
-
-            if(onBlock != null) {
-
-
-
-                world.changes.removeBlockAt( x, y );
-                world.changes.removeToken( this );
-                return;
-            }
-            if(belowBlock != null) {
-
-
-
-                world.changes.removeBlockAt( x, y + 1 );
-                world.changes.removeToken( this );
-            }
-
-        }
-        default:
-            // Nothing to do
+        if(tokenbehaviour !=null) {
+            tokenbehaviour.performStep(this,world);
         }
     }
 
