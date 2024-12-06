@@ -11,9 +11,6 @@
 :rabbit_delay=4
 :music=tryad-witness
 :dig=5
-:portal=15
-:breakblock=20
-:jump=15
 ###########
 #   Q     #
 #\      /##
