@@ -175,7 +175,7 @@ public class SpriteAnimator
         if (thing instanceof Token) {
             Token token = (Token) thing;
 
-            // StringBuilder를 사용해 문자열을 연결
+            
             StringBuilder keyBuilder = new StringBuilder("token_");
             keyBuilder.append(token.type).append('_')
                     .append(token.stateName(), 6, token.stateName().length());
