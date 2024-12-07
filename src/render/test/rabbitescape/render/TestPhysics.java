@@ -227,7 +227,7 @@ public class TestPhysics
         assertEquals( 1, world.things.size() );
 
         assertEquals(
-            ChangeDescription.State.TOKEN_BASH_STILL,
+            ChangeDescription.State.TOKEN_STILL,
             world.things.get( 0 ).state
         );
     }

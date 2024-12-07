@@ -192,7 +192,6 @@ public class WorldChanges
 
 
                 tokensToAdd.add( new Token( x, y, type, world ) );
-               // world.changes.removeBlockAt(x, y);
                 world.abilities.put( type, numLeft - 1 );
 
             }

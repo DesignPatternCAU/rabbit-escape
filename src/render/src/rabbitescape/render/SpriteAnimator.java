@@ -171,8 +171,24 @@ public class SpriteAnimator
         {
             return null;
         }
+        Animation animation=null;
+        if (thing instanceof Token) {
+            Token token = (Token) thing;
 
-        Animation animation = animationCache.get( thing.stateName() );
+            
+            StringBuilder keyBuilder = new StringBuilder("token_");
+            keyBuilder.append(token.type).append('_')
+                    .append(token.stateName(), 6, token.stateName().length());
+
+            String animationKey = keyBuilder.toString();
+
+            animation = animationCache.get(animationKey);
+        } else {
+            animation = animationCache.get(thing.stateName());
+        }
+
+
+
 
         if ( animation == null )
         {
