@@ -183,6 +183,11 @@ public class WorldChanges
             throw new CantAddTokenOutsideWorld( type, x, y, world.size );
         }
 
+        if (type == Token.Type.portal && world.isExitHere(x, y))
+        {
+            return;
+        }
+
         Block block = world.getBlockAt( x, y );
         if ( BehaviourTools.s_isFlat( block ) )
         {
