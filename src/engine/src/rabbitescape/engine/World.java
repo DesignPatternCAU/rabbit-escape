@@ -395,14 +395,14 @@ public class World
     public Token getOtherPortalToken(int x, int y) {
         List<Token> portalTokens = new ArrayList<>();
         for (Thing thing : things) {
-            if (thing instanceof Token) {
+            if (thing instanceof Token && !changes.tokensToRemove.contains( thing )) {
                 Token token = (Token) thing;
                 if(token.type == Token.Type.portal) {
                     portalTokens.add(token);
                 }
             }
         }
-        // check number of portlaTokens in the map
+        // check number of portalTokens in the map
         if (portalTokens.size() < 2) {
             return null;
         }
@@ -414,6 +414,15 @@ public class World
         }
         // in order to handle both portals at the same position
         return portalTokens.get(1);
+    }
+
+    public boolean isExitHere(int x, int y) {
+        for (Thing thing : getThingsAt(x, y)) {
+            if (thing instanceof Exit) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Thing> getThingsAt( int x, int y )
