@@ -1,0 +1,23 @@
+:name=Break Jump
+:description=First, You need to get to the other side. Then what?
+:author_name=yoonhc
+:hint.1=Break block and jump over the gap
+:hint.2=Block
+:hint.3=Dig down
+:solution.1=2;breakblock;2;(9,1);;jump;(9,2);2;(9,2);3;(9,2);2;block;;(11,2);2;dig;3;(16,2);5;explode;2;(11,2);
+:num_rabbits=3
+:num_to_save=2
+:rabbit_delay=4
+:music=tryad-witness
+:dig=2
+:block=2
+:breakblock=1
+:jump=5
+:explode=2
+###################
+#  Q              #
+#        #       /#
+########## ########
+##########        #
+##########      O #
+########## ########

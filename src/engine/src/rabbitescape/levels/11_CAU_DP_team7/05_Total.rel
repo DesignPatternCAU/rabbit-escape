@@ -1,0 +1,27 @@
+:name=Total
+:description=Do Your Best
+:author_name=Young Honey
+:hint.1=Noble Sacrifice
+:hint.2=Teleport Rabbit
+:hint.3=Make a way to climb up
+:solution.1=;dig;(17,2);;breakblock;(17,9);;portal;(5,9)&(16,2);15;jump;3;breakblock;7;(11,9);jump;4;(13,9);2;climb;(17,9);;jump;3;(13,9);;climb;(17,9);17
+:num_rabbits=3
+:num_to_save=2
+:rabbit_delay=4
+:music=tryad-witness
+:breakblock=2
+:portal=2
+:jump=2
+:dig=1
+:climb=2
+#####################
+#              #    #
+#              #   O#
+#              ######
+#              ######
+#              ######
+#              ######
+#             #######
+#  Q             ####
+#          #     ####
+############## ######

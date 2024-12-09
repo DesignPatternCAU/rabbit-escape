@@ -1,0 +1,19 @@
+:name=Break block
+:description=Choose Little Pink circle button on the left, then choose ANY WHERE including BLOCK to break block.
+:author_name=Young Honey
+:hint.1=EASY~~
+:hint.2=Don't Think
+:hint.3=Break two blocks
+:solution.1=2;breakblock;(4,2);;(8,5);21
+:num_rabbits=3
+:num_to_save=1
+:rabbit_delay=4
+:music=tryad-witness
+:breakblock=2
+###########
+#   Q     #
+#\      /##
+###########
+#       ###
+#\      #O#
+###########
