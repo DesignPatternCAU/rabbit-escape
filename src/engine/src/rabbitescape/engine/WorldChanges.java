@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rabbitescape.engine.ChangeDescription.State;
-import rabbitescape.engine.World.CantAddTokenOutsideWorld;
 import rabbitescape.engine.World.NoBlockFound;
-import rabbitescape.engine.World.NoSuchAbilityInThisWorld;
-import rabbitescape.engine.World.NoneOfThisAbilityLeft;
 import rabbitescape.engine.World.UnableToAddToken;
+import rabbitescape.engine.tokenPlacement.TokenPlacementStrategy;
 import rabbitescape.engine.util.Position;
 
 public class WorldChanges
@@ -37,6 +35,18 @@ public class WorldChanges
         this.world = world;
         this.statsListener = statsListener;
         updateStats();
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public synchronized void removeTokenFromAddQueue(Token token) {
+        tokensToAdd.remove(token);
+    }
+
+    public synchronized void addTokenFromAddQueue(Token token) {
+        tokensToAdd.add(token);
     }
 
     public synchronized void apply()
@@ -163,85 +173,10 @@ public class WorldChanges
         tokensToAdd.clear();
     }
 
-    public synchronized void addToken( int x, int y, Token.Type type )
-    throws UnableToAddToken
+    public synchronized void addToken( int x, int y, Token.Type type ) throws UnableToAddToken
     {
-        Integer numLeft = world.abilities.get( type );
-
-        if ( numLeft == null )
-        {
-            throw new NoSuchAbilityInThisWorld( type );
-        }
-
-        if ( numLeft == 0 )
-        {
-            throw new NoneOfThisAbilityLeft( type );
-        }
-
-        if ( x < 0 || y < 0 || x >= world.size.width || y >= world.size.height )
-        {
-            throw new CantAddTokenOutsideWorld( type, x, y, world.size );
-        }
-
-        Block block = world.getBlockAt( x, y );
-        if ( BehaviourTools.s_isFlat( block ) )
-        {
-            if(type.toString().equals("breakblock")) {
-
-
-
-
-                tokensToAdd.add( new Token( x, y, type, world ) );
-                world.abilities.put( type, numLeft - 1 );
-
-            }
-
-            return;
-        }
-
-        // handle portal tokens (keep maximum 2 portal tokens in the world)
-        if (type == Token.Type.portal) {
-            // combined list of portal tokens in the world and tokensToAdd
-            List<Token> portalTokens = new ArrayList<>();
-
-            // collect portal tokens from world.things
-            for (Thing thing : world.things) {
-                if (thing instanceof Token) {
-                    Token t = (Token) thing;
-                    // exclude tokens to be removed (tokens in tokensToRemove list)
-                    if (t.type == Token.Type.portal && !tokensToRemove.contains(t)) {
-                        portalTokens.add(t);
-                    }
-                }
-            }
-
-            // collect portal tokens from tokensToAdd
-            for (Token t : tokensToAdd) {
-                if (t.type == Token.Type.portal) {
-                    portalTokens.add(t);
-                }
-            }
-
-            // if adding this new portal token will exceed the limit ( 2 tokens max)
-            if (portalTokens.size() >= 2) {
-                // find the oldest portal token
-                Token oldestPortal = portalTokens.get(0);
-
-                // Remove the oldest portal token
-                if (tokensToAdd.contains(oldestPortal)) {
-                    // Remove from tokensToAdd
-                    tokensToAdd.remove(oldestPortal);
-                } else {
-                    // Schedule for removal from world.things
-                    removeToken(oldestPortal);
-                }
-
-                portalTokens.remove(oldestPortal);
-            }
-        }
-        // add new tokens to tokensToAdd
-        tokensToAdd.add( new Token( x, y, type, world) );
-        world.abilities.put( type, numLeft - 1 );
+        TokenPlacementStrategy strategy = TokenPlacementRegistry.getStrategy(type);
+        strategy.addToken(this, x, y, type);
     }
 
     public synchronized void removeToken( Token thing )
