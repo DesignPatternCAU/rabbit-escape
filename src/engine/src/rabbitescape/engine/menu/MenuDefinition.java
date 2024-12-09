@@ -21,6 +21,7 @@ public class MenuDefinition
         new LevelSetInfo( "Rabbots", "08_rabbots", null ),
         new LevelSetInfo( "Water", "09_water", null ),
         new LevelSetInfo( "Super-Easy", "10_super_easy", null ),
+        new LevelSetInfo("CAU-DP-Team7", "11_CAU_DP_team7", null),
         new LevelSetInfo( "Development", "development", null, true ),
         new LevelSetInfo( "Staging", "staging", null, true )
     );
